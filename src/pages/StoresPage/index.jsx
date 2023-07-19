@@ -15,15 +15,19 @@ const StoresPage = () => {
   const [isCreating, setIsCreating] = useState(false);
 
   useEffect(() => {
-    axios
-      .get('https://some-data.onrender.com/stores')
-      .then((response) => {
-        setStores(response.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    (
+      async () => {
+        try {
+          const { data } = await axios.get('https://some-data.onrender.com/stores')
+          setStores(data)
+        } catch (error) {
+          console.log(error.message)
+          setError(error.message)
+        } finally {
+          setIsLoading(false)
+        }
+      }
+    )();
   }, []);
 
   const handleDelete = async (id) => {
