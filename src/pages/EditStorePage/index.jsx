@@ -5,10 +5,11 @@ import Container from '../../components/Container';
 import { PATHS } from '../../router/paths';
 import { Navigate, useParams } from 'react-router-dom';
 import StoreForm from '../../components/StoreForm';
+import WithParams from './../../components/WithParams/index';
 
 const EditStorePage = () => {
   const { id } = useParams();
-  const [store, setStore] = useState(null);
+  const [store, setStore] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isGoToListPage, setIsGoToListPage] = useState(false);
 
@@ -49,4 +50,4 @@ const EditStorePage = () => {
   );
 };
 
-export default EditStorePage;
+export default WithParams(EditStorePage);

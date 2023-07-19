@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Container from '../../components/Container';
 import { Navigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../router/paths';
+import WithParams from './../../components/WithParams/index';
+import axios from 'axios';
 
 const StorePage = () => {
   const { id } = useParams();
@@ -15,12 +17,18 @@ const StorePage = () => {
   };
 
   useEffect(() => {
-    fetch(`https://some-data.onrender.com/stores/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setStore(data);
+    (
+     async () => {
+      try {
+        const response = await axios.get(`https://some-data.onrender.com/stores/${id}`);
+        setStore(response.data);
+      } catch (error) {
+        console.error('Error fetching store data:', error);
+      } finally {
         setIsLoading(false);
-      });
+      }
+    }
+    )();
   }, [id]);
 
   return (
@@ -40,4 +48,4 @@ const StorePage = () => {
   );
 };
 
-export default StorePage;
+export default WithParams(StorePage);
