@@ -5,6 +5,7 @@ import Container from '../../components/Container';
 import { Navigate } from 'react-router-dom';
 import { PATHS } from '../../router/paths';
 import StoreForm from '../../components/StoreForm';
+import {Base_URL} from '../../config/api'
 
 const CreateStorePage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +14,7 @@ const CreateStorePage = () => {
   const handleCreateStore = async (body) => {
     setIsLoading(true);
     try {
-      const res = await axios.post('https://some-data.onrender.com/stores', body);
+      const res = await axios.post(Base_URL + '/stores', body);
       setIsLoading(false);
       setIsGoToListPage(true);
       console.log(res.data);

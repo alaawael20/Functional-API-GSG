@@ -6,6 +6,7 @@ import { PATHS } from '../../router/paths';
 import { Navigate, useParams } from 'react-router-dom';
 import StoreForm from '../../components/StoreForm';
 import WithParams from './../../components/WithParams/index';
+import {Base_URL} from '../../config/api'
 
 const EditStorePage = () => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ const EditStorePage = () => {
   const [isGoToListPage, setIsGoToListPage] = useState(false);
 
   useEffect(() => {
-    fetch(`https://some-data.onrender.com/stores/${id}`)
+    fetch(`${Base_URL}/stores/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setStore(data);
@@ -26,7 +27,9 @@ const EditStorePage = () => {
     setIsLoading(true);
     try {
       const res = await axios.put(
-        `https://some-data.onrender.com/stores/${id}`,
+        Base_URL
+        +
+        `/stores/${id}`,
         body
       );
       console.log(res.data);

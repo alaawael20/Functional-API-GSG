@@ -3,6 +3,7 @@ import Container from '../../components/Container';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../router/paths';
 import axios from 'axios';
+import {Base_URL} from '../../config/api'
 
 const StorePage = () => {
   const navigate = useNavigate();
@@ -20,8 +21,9 @@ const StorePage = () => {
   useEffect(() => {
     (
      async () => {
+      setIsLoading(true);
       try {
-        const {data} = await axios.get(`https://some-data.onrender.com/stores/${id}`);
+        const {data} = await axios.get(`${Base_URL}/stores/${id}`);
         setStore(data);
       } catch (error) {
         setError(error.message);
@@ -39,9 +41,9 @@ const StorePage = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <h1>Store {store.id}</h1>
+          <h1>Store {store?.id}</h1>
           <h2>{store?.name}</h2>
-          <p>{store.cities}</p>
+          <p>{store?.cities}</p>
         </>
       )}
       <button onClick={handleEdit}>Edit</button>
