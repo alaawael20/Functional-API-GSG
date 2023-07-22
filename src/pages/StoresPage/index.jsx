@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Table from '../../components/Table';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { PATHS } from '../../router/paths';
 import { STORES_COLUMNS } from '../../constants/stores';
 import { Container } from './../../components/Container/index';
 import './style.css'
 
 const StoresPage = () => {
+  const navigate = useNavigate();
+
   const [stores, setStores] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [rowId, setRowId] = useState("");
-  const [editId, setEditId] = useState("");
   const [isCreating, setIsCreating] = useState(false);
 
   useEffect(() => {
@@ -37,17 +37,19 @@ const StoresPage = () => {
       setStores((prevStores) => prevStores.filter((store) => store.id !== id));
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleEdit = (id) => {
     console.log(id, 'is edited');
-    setEditId(id);
+    navigate(PATHS.STORES.EDIT.replace(':id', id));
   };
 
   const handleView = (row) => {
     console.log(row.id, 'is viewed');
-    setRowId(row.id);
+    navigate(PATHS.STORES.VIEW.replace(':id', row.id));
   };
 
   return (
@@ -62,14 +64,7 @@ const StoresPage = () => {
         onRowClick={handleView}
         isLoading={isLoading}
       />
-
-      {rowId && <Navigate to={`${rowId}`} replace />}
-      {editId && (
-        <Navigate
-          to={PATHS.STORES.EDIT.replace(':id', editId)}
-          replace
-        />
-      )}
+      
       {isCreating && <Navigate to={PATHS.STORES.CREATE} replace />}
     </Container>
   );
