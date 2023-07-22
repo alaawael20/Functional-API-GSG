@@ -1,29 +1,14 @@
 {
   "stores": [
     {
-      "name": "Capital",
-      "cities": "Rafah",
-      "id": 1
-    },
-    {
-      "name": "Alaa",
-      "cities": "Khanyonis",
-      "id": 2
-    },
-    {
-      "name": "Makka Mall",
-      "cities": "Gaza",
-      "id": 3
-    },
-    {
       "name": "Shop 1",
       "cities": "City 1",
-      "id": 4
+      "id": 1
     },
     {
       "name": "Shop 2",
       "cities": "City 2",
-      "id": 5
+      "id": 2
     }
   ]
 }
