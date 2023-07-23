@@ -7,6 +7,7 @@ import EditStorePage from "../pages/EditStorePage";
 import CreateStorePage from './../pages/CreateStorePage/index';
 import HomePage from './../pages/HomePage/index';
 import { H1 } from "../components/Typography";
+import AboutUs from "../pages/AboutPage";
 
 const adminPages = (role) => [
     {
@@ -21,6 +22,16 @@ const adminPages = (role) => [
                 path: PATHS.ADMIN.USERS,
                 element: <H1>Users</H1>,
             },
+        ],
+    },
+    {
+        path: PATHS.STORES.ROOT,
+        element: <Outlet />,
+        children: [
+            {
+                index: true,
+                element: <StoresPage />,
+            }
         ],
     }
 ];
@@ -47,6 +58,10 @@ const userPages = [
             },
         ],
     },
+    {
+        path: "/about",
+        element: <AboutUs />,
+    }
 ];
 const routes = [
     {

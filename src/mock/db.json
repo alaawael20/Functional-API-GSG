@@ -9,6 +9,11 @@
       "name": "Shop 2",
       "cities": "City 2",
       "id": 2
+    },
+    {
+      "name": "Shop 3",
+      "cities": "City 3",
+      "id": 3
     }
   ]
 }

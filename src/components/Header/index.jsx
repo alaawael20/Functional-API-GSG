@@ -16,9 +16,12 @@ const Header = () => {
           </li>
           <li>
             <NavLink to={PATHS.STORES.ROOT}>
-              {({ isActive, isPending }) =>
-                isActive ? <u>Stores</u> : 'Stores'
-              }
+              {({ isActive, isPending }) => (isActive ? <u>Stores</u> : 'Stores')}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/about">
+              {({ isActive, isPending }) => (isActive ? <u>About Us</u> : 'About Us')}
             </NavLink>
           </li>
         </ul>
