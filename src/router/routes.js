@@ -7,7 +7,7 @@ import EditStorePage from "../pages/EditStorePage";
 import CreateStorePage from './../pages/CreateStorePage/index';
 import HomePage from './../pages/HomePage/index';
 import { H1 } from "../components/Typography";
-import AboutUs from "../pages/AboutPage";
+import AboutUs from "../pages/About";
 
 const adminPages = (role) => [
     {

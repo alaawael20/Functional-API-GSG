@@ -3,7 +3,7 @@ import { adminPages, routes, userPages } from "./routes";
 import { useRoutes } from "react-router-dom";
 
 const Router = () => {
-  const [role, setRole] = useState('user');
+  const [role, setRole] = useState('admin');
 
   const handleRoles = () => {
     if (role === 'user') {
