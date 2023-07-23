@@ -5,7 +5,6 @@ import Container from '../../components/Container';
 import { PATHS } from '../../router/paths';
 import { Navigate, useParams } from 'react-router-dom';
 import StoreForm from '../../components/StoreForm';
-import WithParams from './../../components/WithParams/index';
 import {Base_URL} from '../../config/api'
 
 const EditStorePage = () => {
@@ -53,4 +52,4 @@ const EditStorePage = () => {
   );
 };
 
-export default WithParams(EditStorePage);
+export default EditStorePage;
