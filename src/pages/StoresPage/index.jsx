@@ -14,6 +14,7 @@ const StoresPage = () => {
   const [stores, setStores] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     (
@@ -36,7 +37,8 @@ const StoresPage = () => {
     try {
       await axios.delete(`${Base_URL}/stores/${id}`);
       setStores((prevStores) => prevStores.filter((store) => store.id !== id));
-    } catch (err) {
+    } catch (error) {
+      setError(error.message)
       console.log(err);
     } finally {
       setIsLoading(false);
