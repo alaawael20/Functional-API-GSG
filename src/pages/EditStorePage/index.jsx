@@ -19,7 +19,7 @@ const EditStorePage = () => {
       .then((data) => {
         setStore(data);
         setIsLoading(false);
-      });
+      }); 
   }, [id]);
 
   const handleEditStore = async (body) => {

@@ -17,7 +17,6 @@ const CreateStorePage = () => {
       const res = await axios.post(Base_URL + '/stores', body);
       setIsLoading(false);
       setIsGoToListPage(true);
-      console.log(res.data);
     } catch (error) {
       console.log(error.message);
     }

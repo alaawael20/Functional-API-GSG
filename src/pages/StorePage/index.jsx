@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Container from '../../components/Container';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from '../../router/paths';
-import axios from 'axios';
 import {Base_URL} from '../../config/api'
+import useAPI from './../../hooks/useAPI';
 
 const StorePage = () => {
   const navigate = useNavigate();
-
   const { id } = useParams();
-  const [store, setStore] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {getSingle, item: store, isLoading} = useAPI(`${Base_URL}/stores`)
 
   const handleEdit = () => {
     console.log(id, 'is edited');
@@ -19,20 +16,7 @@ const StorePage = () => {
   };
 
   useEffect(() => {
-    (
-     async () => {
-      setIsLoading(true);
-      try {
-        const {data} = await axios.get(`${Base_URL}/stores/${id}`);
-        setStore(data);
-      } catch (error) {
-        setError(error.message);
-        console.error('Error fetching store data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    )();
+    getSingle(id);
   }, [id]);
 
   return (
