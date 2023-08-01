@@ -1,18 +1,11 @@
-import { useState } from "react";
-import { adminPages, routes, userPages } from "./routes";
+import { routes } from "./routes";
 import { useRoutes } from "react-router-dom";
 
 const Router = () => {
-  const [role, setRole] = useState('user');
-
   const handleRoles = () => {
-    if (role === 'user') {
-      return [...routes, ...userPages];
-    }
-    return [...routes, ...adminPages(role)];
+    return [...routes]
   };
   const router = useRoutes(handleRoles());
-
   return router;
 };
 

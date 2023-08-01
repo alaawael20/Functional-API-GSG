@@ -1,89 +1,137 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useReducer } from 'react';
 
-const useAPI = (url, config) => {
-  const [data, setData] = useState([]);
-  const [item, setItem] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [message, setMessage] = useState('');
+const SET_LOADING = 'SET_LOADING';
+const SET_ERROR = 'SET_ERROR';
+const GET = 'GET';
+const POST = 'POST';
+const DELETE = 'DELETE';
+const EDIT = 'EDIT';
+const GET_SINGLE = 'GET_SINGLE';
 
-  const get = async (getConfig) => {
-    try {
-      const res = await axios.get(url, { ...config, ...getConfig });
-      setIsLoading(true);
-      setData(res.data);
-      console.log(res.data)
-    } catch (error) {
-      setError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+const INITIAL_STATE = {
+  stores: [],
+  isLoading: false,
+  error: null,
+  store: {},
+};
 
-  const getSingle = async (id, getConfig) => {
-    try {
-      const res = await axios.get(`${url}/${id}`, { ...config, ...getConfig });
-      setIsLoading(true);
-      setItem(res?.data?.data || res?.data);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const post = async (cities) => {
-  try {
-    const res = await axios.post(url, cities, config); // Corrected the method to axios.post
-    setIsLoading(true);
-    setData((prevState) => [...prevState, res.data.data]);
-    setMessage('Success!');
-  } catch (error) {
-    setError(error);
-  } finally {
-    setIsLoading(false);
+const reducer = (state, action) => {
+  switch (action.type) {
+    case SET_LOADING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false
+      };
+    case GET:
+      return {
+        ...state,
+        stores: action.payload,
+        isLoading: false
+      };
+    case POST:
+      return {
+        ...state,
+        stores: [
+          ...state.stores,
+          action.payload
+        ],
+        isLoading: false,
+      };
+    case DELETE:
+      return {
+        ...state,
+        stores: state.stores.filter((store) => store.id !== action.payload),
+        isLoading: false,
+      };
+    case EDIT:
+      return {
+        ...state,
+        stores: state.stores.map((store) =>
+          store.id === action.payload.id ? action.payload : store
+        ),
+        isLoading: false,
+      };
+    case GET_SINGLE:
+      return {
+        ...state,
+        store: action.payload,
+        isLoading: false,
+      };
+    default:
+      return state;
   }
 };
 
-const put = async (cities) => {
-  try {
-    const res = await axios.put(url, cities, config); // Corrected the method to axios.put
-    setIsLoading(true);
-    setData((prevState) =>
-      prevState.map((item) => (item.id === cities.id ? res.data.data : item))
-    );
-    setMessage('Success!');
-  } catch (error) {
-    setError(error);
-  } finally {
-    setIsLoading(false);
-  }
-};
+const useAPI = (url) => {
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
-  const del = async (id) => {
+  const getStores = async () => {
     try {
-      await axios.delete(`${url}/${id}`, config);
-      setData((prevState) => prevState.filter((item) => item.id !== id));
-      setIsLoading(true);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setIsLoading(false);
+      dispatch({ type: SET_LOADING });
+      const res = await axios.get(url);
+      dispatch({ type: GET, payload: res.data });
+    } catch (err) {
+      dispatch({ type: SET_ERROR, payload: err });
+    }
+  };
+
+  const postStore = async (p) => {
+    try {
+      dispatch({ type: SET_LOADING });
+      const { data } = await axios.post(url, p);
+      dispatch({ type: POST, payload: data });
+    } catch (err) {
+      dispatch({ type: SET_ERROR, payload: err });
+    }
+  };
+
+  const getSingleStore = async (id) => {
+    try {
+      dispatch({ type: SET_LOADING });
+      const { data } = await axios.get(`${url}/${id}`);
+      dispatch({ type: GET_SINGLE, payload: data });
+    } catch (err) {
+      dispatch({ type: SET_ERROR, payload: err });
+    }
+  };
+
+  const editStore = async (id, body) => {
+    try {
+      dispatch({ type: SET_LOADING });
+      const { data } = await axios.put(`${url}/${id}`, body);
+      dispatch({ type: EDIT, payload: data });
+    } catch (err) {
+      dispatch({ type: SET_ERROR, payload: err });
+    }
+  };
+
+  const deleteStore = async (id) => {
+    try {
+      dispatch({ type: SET_LOADING });
+      await axios.delete(`${url}/${id}`);
+      dispatch({ type: DELETE, payload: id });
+    } catch (err) {
+      dispatch({ type: SET_ERROR, payload: err });
     }
   };
 
   return {
-    data,
-    isLoading,
-    error,
-    message,
-    get,
-    post,
-    put,
-    del,
-    getSingle,
-    item,
+    data: state.stores,
+    isLoading: state.isLoading,
+    error: state.error,
+    item: state.store,
+    get: getStores,
+    getSingle: getSingleStore,
+    postStore,
+    del: deleteStore,
+    editStore,
   };
 };
 

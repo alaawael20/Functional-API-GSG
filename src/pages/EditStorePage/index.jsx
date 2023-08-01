@@ -5,7 +5,7 @@ import Container from '../../components/Container';
 import { PATHS } from '../../router/paths';
 import { Navigate, useParams } from 'react-router-dom';
 import StoreForm from '../../components/StoreForm';
-import {Base_URL} from '../../config/api'
+import { Base_URL } from '../../config/api'
 
 const EditStorePage = () => {
   const { id } = useParams();
@@ -14,12 +14,15 @@ const EditStorePage = () => {
   const [isGoToListPage, setIsGoToListPage] = useState(false);
 
   useEffect(() => {
-    fetch(`${Base_URL}/stores/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setStore(data);
+    axios.get(`${Base_URL}/stores/${id}`) 
+      .then((response) => {
+        setStore(response.data);
         setIsLoading(false);
-      }); 
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setIsLoading(false);
+      });
   }, [id]);
 
   const handleEditStore = async (body) => {

@@ -31,16 +31,13 @@ const StoresPage = () => {
   return (
     <Container>
       <h1>Stores</h1>
-
       <button onClick={() => navigate(PATHS.STORES.CREATE)}>Create Store</button>
-
       <Table
         columns={STORES_COLUMNS(handleDelete, handleEdit)}
         data={data}
         onRowClick={handleView}
         isLoading={isLoading}
       />
-      
     </Container>
   );
 };

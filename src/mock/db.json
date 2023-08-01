@@ -4,6 +4,16 @@
       "name": "Shop 1",
       "cities": "City 1",
       "id": 1
+    },
+    {
+      "name": "Shop 2",
+      "cities": "City 2",
+      "id": 2
+    },
+    {
+      "name": "Shop 3",
+      "cities": "City 3",
+      "id": 3
     }
   ]
 }

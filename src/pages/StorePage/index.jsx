@@ -11,14 +11,12 @@ const StorePage = () => {
   const {getSingle, item: store, isLoading} = useAPI(`${Base_URL}/stores`)
 
   const handleEdit = () => {
-    console.log(id, 'is edited');
     navigate(PATHS.STORES.EDIT.replace(':id', id));
   };
 
   useEffect(() => {
     getSingle(id);
   }, [id]);
-
   return (
     <Container>
       {isLoading ? (

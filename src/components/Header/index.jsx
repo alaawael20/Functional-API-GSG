@@ -20,8 +20,13 @@ const Header = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/about">
+            <NavLink to={PATHS.ABOUT}>
               {({ isActive, isPending }) => (isActive ? <u>About Us</u> : 'About Us')}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={PATHS.CODEINPUT}>
+              {({ isActive, isPending }) => (isActive ? <u>Code Input</u> : 'Code Input')}
             </NavLink>
           </li>
         </ul>

@@ -4,7 +4,7 @@ import './style.css';
 const HomePage = () => {
   return (
     <div className='homepage'>
-      <h1>Home Page</h1>
+      <h1>Wellcome In My Page</h1>
     </div>
   );
 };

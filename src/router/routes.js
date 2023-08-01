@@ -1,5 +1,4 @@
 import { PATHS } from "./paths";
-import AdminGuard from './../components/AdminGuard/index';
 import { Navigate, Outlet } from "react-router-dom";
 import StoresPage from './../pages/StoresPage/index';
 import StorePage from "../pages/StorePage";
@@ -8,34 +7,13 @@ import CreateStorePage from './../pages/CreateStorePage/index';
 import HomePage from './../pages/HomePage/index';
 import { H1 } from "../components/Typography";
 import AboutUs from "../pages/About";
+import CodeInput from './../pages/CodeInput/index';
 
-const adminPages = (role) => [
+const routes = [
     {
-        path: PATHS.ADMIN.ROOT,
-        element: <AdminGuard role={role} />,
-        children: [
-            {
-                index: true,
-                element: <H1>Admin</H1>,
-            },
-            {
-                path: PATHS.ADMIN.USERS,
-                element: <H1>Users</H1>,
-            },
-        ],
+        index: true,
+        element:<HomePage />
     },
-    {
-        path: PATHS.STORES.ROOT,
-        element: <Outlet />,
-        children: [
-            {
-                index: true,
-                element: <StoresPage />,
-            }
-        ],
-    }
-];
-const userPages = [
     {
         path: PATHS.STORES.ROOT,
         element: <Outlet />,
@@ -61,12 +39,10 @@ const userPages = [
     {
         path: "/about",
         element: <AboutUs />,
-    }
-];
-const routes = [
+    },
     {
-        index: true,
-        element: <HomePage />,
+        path: "/codeInput",
+        element: <CodeInput />,
     },
     {
         path: PATHS.ERRORS.NOT_FOUND,
@@ -78,4 +54,4 @@ const routes = [
     },
 ];
 
-export { adminPages, userPages, routes };
+export { routes };

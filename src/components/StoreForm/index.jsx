@@ -11,7 +11,7 @@ const inputsArray = [
   {
     id: 'cities',
     name: 'cities',
-    type: 'textarea',
+    type: 'text',
     label: 'Cities',
   },
 ];
@@ -53,18 +53,6 @@ const StoreForm = ({ store, handleSubmit, isLoading }) => {
       {inputsArray.map((input) => (
         <div className='inputForm' key={input.id}>
           <label htmlFor={input.id}>{input.label}</label>
-          {input.type === 'textarea' ? (
-            <textarea
-              id={input.id}
-              name={input.name}
-              value={input.name === 'name' ? name : cities}
-              onChange={handleChangeInput}
-              style={{
-                padding: 10,
-                width: 300,
-              }}
-            />
-          ) : (
             <input
               type={input.type}
               id={input.id}
@@ -76,10 +64,8 @@ const StoreForm = ({ store, handleSubmit, isLoading }) => {
                 width: 300,
               }}
             />
-          )}
         </div>
       ))}
-
       <button type='submit'>{isLoading ? 'Loading...' : 'Submit'}</button>
     </form>
   );
