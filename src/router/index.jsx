@@ -2,10 +2,7 @@ import { routes } from "./routes";
 import { useRoutes } from "react-router-dom";
 
 const Router = () => {
-  const handleRoles = () => {
-    return [...routes]
-  };
-  const router = useRoutes(handleRoles());
+  const router = useRoutes(routes);
   return router;
 };
 

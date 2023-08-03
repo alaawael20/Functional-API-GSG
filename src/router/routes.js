@@ -1,22 +1,39 @@
 import { PATHS } from "./paths";
-import { Navigate, Outlet } from "react-router-dom";
-import StoresPage from './../pages/StoresPage/index';
-import StorePage from "../pages/StorePage";
-import EditStorePage from "../pages/EditStorePage";
-import CreateStorePage from './../pages/CreateStorePage/index';
+import { Navigate } from "react-router-dom";
 import HomePage from './../pages/HomePage/index';
 import { H1 } from "../components/Typography";
+import AdminGuard from './../components/Guards/AdminGuard/index';
+import UserGuard from './../components/Guards/UserGuard/index';
+import StoresPage from './../pages/StoresPage/index';
+import StorePage from './../pages/StorePage/index';
+import EditStorePage from './../pages/EditStorePage/index';
+import CreateStorePage from './../pages/CreateStorePage/index';
+import GuestGuard from './../components/Guards/GuestGuard/index';
+import LoginPage from './../pages/LoginPage/index';
+import SignUpPage from './../pages/SignUpPage/index';
 import AboutUs from "../pages/About";
-import CodeInput from './../pages/CodeInput/index';
 
-const routes = [
+const adminPages = [
     {
-        index: true,
-        element:<HomePage />
+        path: PATHS.ADMIN.ROOT,
+        element: <AdminGuard />,
+        children: [
+            {
+                index: true,
+                element: <H1>Admin</H1>,
+            },
+            {
+                path: PATHS.ADMIN.USERS,
+                element: <H1>Users</H1>,
+            },
+        ],
     },
+];
+
+const userPages = [
     {
         path: PATHS.STORES.ROOT,
-        element: <Outlet />,
+        element: <UserGuard />,
         children: [
             {
                 index: true,
@@ -36,14 +53,51 @@ const routes = [
             },
         ],
     },
+];
+
+const authPages = [
     {
-        path: "/about",
-        element: <AboutUs />,
+        path: PATHS.LOGIN,
+        element: (
+            <GuestGuard>
+                <LoginPage />
+            </GuestGuard>
+        ),
     },
     {
-        path: "/codeInput",
-        element: <CodeInput />,
+        path: PATHS.SIGNUP,
+        element: (
+            <GuestGuard>
+                <SignUpPage />
+            </GuestGuard>
+        ),
     },
+];
+
+const guestPages = [
+    {
+        index: true,
+        element: (
+            <GuestGuard>
+                <HomePage />
+            </GuestGuard>
+        ),
+    },
+    {
+        path: PATHS.ABOUT,
+        element: (
+            <GuestGuard>
+                <AboutUs />
+            </GuestGuard>
+        ),
+    },
+    ...authPages,
+];
+
+const routes = [
+    ...guestPages,
+    ...userPages,
+    ...adminPages,
     {
         path: PATHS.ERRORS.NOT_FOUND,
         element: <H1>Page not found 404</H1>,
@@ -54,4 +108,4 @@ const routes = [
     },
 ];
 
-export { routes };
+export { adminPages, userPages, routes };
